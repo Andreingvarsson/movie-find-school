@@ -1,29 +1,29 @@
-package com.example.movie.dto;
+package com.example.movie.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import java.io.Serializable;
 import java.util.List;
 
-// DTO = data transfer Object
+public class Movie implements Serializable {
+    private static final long serialVersionUID = 669636611022282531L;
 
-public class MovieDto {
-    @JsonProperty("Title")
+    @Id
+    private String id;
     private String title;
-    @JsonProperty("Plot")
     private String plot;
-    @JsonProperty("Language")
     private String language;
-    @JsonProperty("Country")
     private String country;
-    @JsonProperty("Year")
     private String year;
+    @Indexed(unique = true) // makes imdbID unique, wont add more of the same.
     private String imdbID;
-    @JsonProperty("Actors")
-    private String actors;
-    private String test;
+    private List<String> actors;
 
-    public MovieDto() {}
 
-    public MovieDto(String title, String plot, String language, String country, String year, String imdbID, String actors) {
+    public Movie() {
+    }
+
+    public Movie(String title, String plot, String language, String country, String year, String imdbID, List<String> actors) {
         this.title = title;
         this.plot = plot;
         this.language = language;
@@ -31,6 +31,14 @@ public class MovieDto {
         this.year = year;
         this.imdbID = imdbID;
         this.actors = actors;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -82,18 +90,10 @@ public class MovieDto {
     }
 
     public List<String> getActors() {
-        return List.of(actors.split(", "));
+        return actors;
     }
 
-    public void setActors(String actors) {
+    public void setActors(List<String> actors) {
         this.actors = actors;
-    }
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
     }
 }
